@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RAYANYUSUF | Blog</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Special+Elite&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* ==================== GLOBAL STYLES ==================== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #dcd3c1;
+      background-image: 
+        radial-gradient(#cbbfa9 1px, transparent 1px),
+        linear-gradient(to right, rgba(0,0,0,0.02) 1px, transparent 1px);
+      background-size: 20px 20px, 40px 40px;
+      font-family: 'Courier Prime', monospace;
+      color: #2b2b2b;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      transition: background-color 0.3s ease;
+    }
+
+    /* Dark Mode Styling */
+    body.dark-mode {
+      background-color: #1a1917;
+      color: #e0e0e0;
+    }
+
+    body.dark-mode .canvas {
+      background-color: #272522;
+      border-color: #3d3a35;
+    }
+
+    body.dark-mode .polaroid, 
+    body.dark-mode .sidebar-card, 
+    body.dark-mode .notepad-card,
+    body.dark-mode .notebook-page {
+      background-color: #33302b;
+      color: #e2ddd3;
+    }
+
+    body.dark-mode .handwritten {
+      color: #f1e2c3;
+    }
+
+    body.dark-mode .post-text, 
+    body.dark-mode .sidebar-text,
+    body.dark-mode .notebook-page p {
+      color: #ccc;
+    }
+
+    .canvas {
+      max-width: 1280px;
+      width: 100%;
+      background-color: #f2ece1;
+      background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+      border: 1px solid #c8beab;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+      padding: 40px 45px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .handwritten {
+      font-family: 'Caveat', cursive;
+      color: #38322a;
+      line-height: 1.25;
+    }
+
+    /* Decorative Tape */
+    .washi-tape {
+      position: absolute;
+      height: 22px;
+      width: 75px;
+      background-color: rgba(224, 185, 180, 0.65);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+      z-index: 10;
+      transform: rotate(-2deg);
+    }
+
+    /* Cutout Scrapbook Letter Base */
+    .letter {
+      display: inline-block;
+      padding: 6px 10px;
+      font-weight: 700;
+      font-family: 'Special Elite', 'Courier Prime', monospace;
+      margin: 1px;
+      box-shadow: 2px 3px 6px rgba(0,0,0,0.22);
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    /* Cutout Palette Matching Image */
+    .bg-pink-1   { background-color: #e6526e; color: #ffffff; }
+    .bg-yellow-1 { background-color: #f4c242; color: #111111; }
+    .bg-black-1  { background-color: #1a1a1a; color: #ffffff; }
+    .bg-cream-1  { background-color: #f0eae1; color: #1a1a1a; border: 1px solid #d0c5b4; }
+    .bg-green-1  { background-color: #3b5042; color: #ffffff; }
+    .bg-teal-1   { background-color: #336262; color: #ffffff; }
+    .bg-brown-1  { background-color: #a26d3f; color: #ffffff; }
+    .bg-tan-1    { background-color: #cbb08b; color: #ffffff; }
+    .bg-olive-1  { background-color: #6a633a; color: #ffffff; }
+    .bg-grey-1   { background-color: #6d6e71; color: #ffffff; }
+    .bg-lavender { background-color: #c1b3d3; color: #222222; }
+
+    /* ==================== HEADER ==================== */
+    header {
+      position: relative;
+      margin-bottom: 35px;
+      text-align: center;
+    }
+
+    .top-notes {
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      margin-bottom: 10px;
+      padding: 0 10px;
+    }
+
+    .top-right-note {
+      position: relative;
+      background-color: #e5939a;
+      padding: 15px 18px;
+      box-shadow: 3px 4px 8px rgba(0,0,0,0.15);
+      transform: rotate(4deg);
+      color: #fff;
+      text-align: center;
+      font-size: 1.3rem;
+    }
+
+    .banner-title {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 3px;
+      margin: 20px 0 30px 0;
+    }
+
+    .banner-title .letter {
+      font-size: 3.6rem;
+      padding: 10px 16px;
+    }
+
+    /* NAVIGATION */
+    nav {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .nav-tab {
+      padding: 8px 22px;
+      text-decoration: none;
+      color: #2b2b2b;
+      font-weight: bold;
+      font-size: 1rem;
+      box-shadow: 2px 3px 5px rgba(0,0,0,0.12);
+      border-radius: 2px;
+      transition: transform 0.1s ease;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+    }
+
+    .nav-tab:hover {
+      transform: translateY(-2px);
+    }
+
+    .nav-icons {
+      margin-left: 20px;
+      display: flex;
+      gap: 15px;
+      font-size: 1.1rem;
+      cursor: pointer;
+    }
+
+    .nav-icons i {
+      padding: 8px;
+      border-radius: 50%;
+      transition: background 0.2s ease;
+    }
+
+    .nav-icons i:hover {
+      background-color: rgba(0,0,0,0.08);
+    }
+
+    /* ==================== CONTENT GRID ==================== */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 3.2fr 1.2fr;
+      gap: 30px;
+    }
+
+    /* POST CARDS */
+    .posts-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .polaroid {
+      background-color: #fcfaf5;
+      padding: 12px 12px 14px 12px;
+      box-shadow: 3px 6px 15px rgba(0,0,0,0.12);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-self: start;
+    }
+
+    .polaroid-img-wrapper {
+      position: relative;
+      width: 100%;
+      height: 140px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .polaroid-img-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: sepia(0.2) contrast(0.95);
+    }
+
+    .post-title-cutout {
+      margin-bottom: 2px;
+      line-height: 1.0;
+    }
+
+    .post-title-cutout .letter {
+      font-size: 1.15rem;
+      padding: 2px 5px;
+      margin: 0px;
+    }
+
+    .post-text {
+      font-size: 0.88rem;
+      color: #444;
+      line-height: 1.3;
+      margin-bottom: 10px;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: #777;
+    }
+
+    .pill-btn {
+      display: inline-block;
+      border: 1.5px solid #2b2b2b;
+      border-radius: 20px;
+      padding: 5px 15px;
+      text-decoration: none;
+      color: #2b2b2b;
+      font-size: 0.85rem;
+      background: rgba(255,255,255,0.6);
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .pill-btn:hover {
+      background-color: #2b2b2b;
+      color: #ffffff;
+    }
+
+    /* ==================== SIDEBAR ==================== */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    .sidebar-card {
+      background-color: #fcfaf5;
+      padding: 22px;
+      box-shadow: 2px 4px 10px rgba(0,0,0,0.08);
+      position: relative;
+    }
+
+    .sidebar-title {
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      flex-wrap: wrap;
+    }
+
+    .sidebar-title .letter {
+      font-size: 1.1rem;
+      padding: 4px 7px;
+    }
+
+    .sidebar-text {
+      font-size: 0.88rem;
+      line-height: 1.45;
+      color: #444;
+      margin-bottom: 18px;
+    }
+
+    .categories-tags {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 320px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .category-item {
+      display: block;
+      padding: 7px 14px;
+      text-decoration: none;
+      color: #222;
+      font-size: 0.9rem;
+      box-shadow: 1px 2px 4px rgba(0,0,0,0.1);
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+      text-align: left;
+      width: 100%;
+      font-family: inherit;
+    }
+
+    .subscribe-form input {
+      width: 100%;
+      padding: 9px;
+      border: 1px solid #bbb;
+      background-color: #f3efe6;
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.82rem;
+      margin-top: 12px;
+    }
+
+    .subscribe-form button {
+      background-color: #1a1a1a;
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      margin-top: 6px;
+      float: right;
+      cursor: pointer;
+    }
+
+    /* ==================== BOTTOM SECTION ==================== */
+    .bottom-layout {
+      margin-top: 35px;
+      display: grid;
+      grid-template-columns: 2.2fr 1fr;
+      gap: 25px;
+    }
+
+    .bottom-banner {
+      background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1000&q=80');
+      background-size: cover;
+      background-position: center;
+      padding: 35px 40px;
+      position: relative;
+      box-shadow: 3px 5px 12px rgba(0,0,0,0.15);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .bottom-banner-title .letter {
+      font-size: 2.5rem;
+      padding: 8px 14px;
+    }
+
+    .notepad-card {
+      background-color: #fcfaf5;
+      background-image: linear-gradient(#e1dcd3 1px, transparent 1px), linear-gradient(90deg, #e1dcd3 1px, transparent 1px);
+      background-size: 16px 16px;
+      padding: 22px;
+      box-shadow: 2px 4px 10px rgba(0,0,0,0.08);
+      font-size: 1.25rem;
+    }
+
+    .checklist-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    /* ==================== FOOTER ==================== */
+    footer {
+      margin-top: 40px;
+      border-top: 1px dashed #aaa;
+      padding-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+      color: #555;
+    }
+
+    .social-icons a {
+      color: #2b2b2b;
+      margin-right: 14px;
+      font-size: 1.2rem;
+      text-decoration: none;
+    }
+
+    /* ==================== INTERACTIVE NOTE MODALS ==================== */
+    .note-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(40, 35, 30, 0.7);
+      backdrop-filter: blur(4px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      padding: 20px;
+    }
+
+    .note-modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .notebook-page {
+      background-color: #fbf7ee;
+      background-image: repeating-linear-gradient(transparent, transparent 31px, #e2d7c5 31px, #e2d7c5 32px);
+      width: 100%;
+      max-width: 720px;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 45px 50px 45px 70px;
+      position: relative;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      border-left: 3px double #e08b8b; /* Red notebook margin line */
+      transform: scale(0.9) rotate(-1deg);
+      transition: transform 0.3s ease;
+    }
+
+    .note-modal-overlay.active .notebook-page {
+      transform: scale(1) rotate(0deg);
+    }
+
+    .notebook-page .close-btn {
+      position: absolute;
+      top: 18px;
+      right: 22px;
+      background: none;
+      border: none;
+      font-size: 2rem;
+      cursor: pointer;
+      color: #555;
+      line-height: 1;
+    }
+
+    .notebook-page .note-date {
+      font-size: 1.15rem;
+      color: #777;
+      margin-bottom: 12px;
+    }
+
+    .notebook-page h2 {
+      font-size: 2.3rem;
+      margin-bottom: 22px;
+      line-height: 1.25;
+      color: #1a1a1a;
+    }
+
+    .notebook-page p {
+      font-size: 1.35rem;
+      line-height: 32px;
+      color: #2c2a27;
+      margin-bottom: 20px;
+    }
+
+    .notebook-page ul {
+      margin: 10px 0 20px 25px;
+      font-size: 1.3rem;
+      line-height: 32px;
+    }
+
+    /* NOTE CARD INNER STYLING */
+    .note-card-inner {
+      background: rgba(255,255,255,0.7);
+      padding: 18px 22px;
+      border-left: 4px solid #f4c242;
+      margin-bottom: 22px;
+      font-size: 1.25rem;
+      line-height: 1.6;
+      border-radius: 2px;
+    }
+
+    .note-card-inner .note-inner-date {
+      font-size: 0.95rem;
+      color: #777;
+      font-family: 'Courier Prime', monospace;
+      margin-bottom: 5px;
+    }
+
+    /* SEARCH INPUT STYLES IN MODAL */
+    .search-box-input {
+      width: 100%;
+      padding: 12px 18px;
+      font-family: 'Courier Prime', monospace;
+      font-size: 1.1rem;
+      border: 2px dashed #a26d3f;
+      background-color: #f4eae0;
+      border-radius: 4px;
+      margin: 15px 0 25px 0;
+      outline: none;
+    }
+
+    .search-result-card {
+      background: rgba(255,255,255,0.6);
+      border-left: 4px solid #e6526e;
+      padding: 12px 16px;
+      margin-bottom: 12px;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .search-result-card:hover {
+      background: #ffffff;
+    }
+
+    /* RESPONSIVE LAYOUT */
+    @media (max-width: 960px) {
+      .main-grid, .bottom-layout {
+        grid-template-columns: 1fr;
+      }
+      .posts-container {
+        grid-template-columns: 1fr;
+      }
+      .notebook-page {
+        padding: 30px 25px 30px 45px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="canvas">
+    
+    <header>
+      <div class="top-notes">
+        <div class="handwritten" style="font-size: 1.35rem; transform: rotate(-6deg);">
+          just a girl<br>with too many<br>thoughts ♡
+        </div>
+
+        <div style="display: flex; gap: 20px; align-items: flex-start;">
+          <div class="handwritten" style="font-size: 1.35rem; transform: rotate(3deg); text-align: right;">
+            same person,<br>different thoughts<br>:-)
+          </div>
+          <div class="top-right-note handwritten">
+            good<br>things<br>take<br>time ♡
+          </div>
+        </div>
+      </div>
+
+      <h1 class="banner-title">
+        <span class="letter bg-pink-1" style="transform: rotate(-3deg);">R</span>
+        <span class="letter bg-yellow-1" style="transform: rotate(2deg);">A</span>
+        <span class="letter bg-black-1" style="transform: rotate(-1deg);">Y</span>
+        <span class="letter bg-cream-1" style="transform: rotate(4deg);">A</span>
+        <span class="letter bg-green-1" style="transform: rotate(-2deg);">N</span>
+        <span class="letter bg-teal-1" style="transform: rotate(1deg);">Y</span>
+        <span class="letter bg-brown-1" style="transform: rotate(-4deg);">U</span>
+        <span class="letter bg-tan-1" style="transform: rotate(3deg);">S</span>
+        <span class="letter bg-olive-1" style="transform: rotate(-1deg);">U</span>
+        <span class="letter bg-grey-1" style="transform: rotate(2deg);">F</span>
+      </h1>
+
+      <nav>
+        <button onclick="openNote('note-home')" class="nav-tab bg-pink-1" style="color:#fff;">home</button>
+        <button onclick="openNote('note-posts')" class="nav-tab bg-yellow-1">posts</button>
+        <button onclick="openNote('note-about')" class="nav-tab bg-green-1" style="color:#fff;">about</button>
+        <button onclick="openNote('note-categories-all')" class="nav-tab bg-brown-1" style="color:#fff;">categories</button>
+        <button onclick="openNote('note-contact')" class="nav-tab bg-pink-1" style="color:#fff;">contact</button>
+        <div class="nav-icons">
+          <i class="fa-solid fa-magnifying-glass" title="Search Journal" onclick="openNote('note-search')"></i>
+          <i class="fa-solid fa-moon" title="Toggle Dark Mode" onclick="toggleDarkMode()"></i>
+        </div>
+      </nav>
+    </header>
+
+    <div class="main-grid">
+      
+      <main class="posts-container">
+        
+        <article class="polaroid" style="transform: rotate(-1deg);">
+          <div class="washi-tape" style="top: -10px; left: 35%;"></div>
+          <div class="polaroid-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80" alt="Sunset sky">
+          </div>
+          <div class="post-title-cutout">
+            <span class="letter bg-pink-1">IN</span>
+            <span class="letter bg-brown-1">MY</span><br>
+            <span class="letter bg-black-1">OVERTHINKER</span>
+            <span class="letter bg-yellow-1">ERA</span>
+          </div>
+          <p class="post-text">
+            a little blabbing about my thoughts, my anxiety, and how i'm learning to be kinder to myself...
+          </p>
+          <div class="card-footer">
+            <button class="pill-btn" onclick="openNote('note-1')">read more &rarr;</button>
+            <span>jul 20, 2025</span>
+          </div>
+        </article>
+
+        <article class="polaroid" style="transform: rotate(1deg);">
+          <div class="washi-tape" style="top: -10px; left: 40%;"></div>
+          <div class="polaroid-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80" alt="Coffee and notebook">
+          </div>
+          <div class="post-title-cutout">
+            <span class="letter bg-brown-1">LITTLE</span>
+            <span class="letter bg-teal-1">THINGS</span><br>
+            <span class="letter bg-yellow-1">THAT</span><br>
+            <span class="letter bg-pink-1">MAKE</span>
+            <span class="letter bg-black-1">ME</span>
+            <span class="letter bg-yellow-1">HAPPY</span>
+          </div>
+          <p class="post-text">
+            some small, ordinary things that somehow make life feel a bit more colorful...
+          </p>
+          <div class="card-footer">
+            <button class="pill-btn" onclick="openNote('note-2')">read more &rarr;</button>
+            <span>jul 15, 2025</span>
+          </div>
+        </article>
+
+        <article class="polaroid" style="transform: rotate(-1.5deg);">
+          <div class="washi-tape" style="top: -10px; left: 30%;"></div>
+          <div class="polaroid-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=600&q=80" alt="Cat lying on book">
+          </div>
+          <div class="post-title-cutout">
+            <span class="letter bg-brown-1">A</span>
+            <span class="letter bg-yellow-1">LAZY</span>
+            <span class="letter bg-teal-1">KIND</span><br>
+            <span class="letter bg-black-1">OF</span>
+            <span class="letter bg-yellow-1">DAY</span>
+          </div>
+          <p class="post-text">
+            no plans, no rush, just coffee, music, and letting the day be what it is...
+          </p>
+          <div class="card-footer">
+            <button class="pill-btn" onclick="openNote('note-3')">read more &rarr;</button>
+            <span>jul 10, 2025</span>
+          </div>
+        </article>
+
+      </main>
+
+      <aside class="sidebar">
+        
+        <div class="sidebar-card">
+          <div class="sidebar-title">
+            <span class="letter bg-pink-1">A</span>
+            <span class="letter bg-yellow-1">B</span>
+            <span class="letter bg-black-1">O</span>
+            <span class="letter bg-teal-1">U</span>
+            <span class="letter bg-pink-1">T</span>
+            <span class="letter bg-green-1">M</span>
+            <span class="letter bg-grey-1">E</span>
+            <span style="font-size: 1.2rem; margin-left: 5px;">❀</span>
+          </div>
+          <p class="sidebar-text">
+            hi! i'm rayan, a girl who loves good coffee, late night thoughts, pretty sunsets, messy rooms, and the little things. this is my space to blab about life, thoughts, and everything in between.
+          </p>
+          <button class="pill-btn" onclick="openNote('note-about')">more about me &rarr;</button>
+        </div>
+
+        <div class="sidebar-card">
+          <div class="sidebar-title">
+            <span class="letter bg-brown-1">C</span>
+            <span class="letter bg-yellow-1">A</span>
+            <span class="letter bg-green-1">T</span>
+            <span class="letter bg-pink-1">E</span>
+            <span class="letter bg-black-1">G</span>
+            <span class="letter bg-teal-1">O</span>
+            <span class="letter bg-tan-1">R</span>
+            <span class="letter bg-pink-1">I</span>
+            <span class="letter bg-yellow-1">E</span>
+            <span class="letter bg-green-1">S</span>
+          </div>
+          <div class="categories-tags">
+            <button onclick="openNote('cat-life')" class="category-item bg-pink-1" style="color:#fff;">life Notes &rarr;</button>
+            <button onclick="openNote('cat-thoughts')" class="category-item bg-yellow-1">thoughts Notes &rarr;</button>
+            <button onclick="openNote('cat-school')" class="category-item bg-green-1" style="color:#fff;">school Notes &rarr;</button>
+            <button onclick="openNote('cat-favorites')" class="category-item bg-lavender">favorites Notes &rarr;</button>
+            <button onclick="openNote('cat-random')" class="category-item bg-tan-1">random blabbings &rarr;</button>
+            <button onclick="openNote('cat-books')" class="category-item bg-brown-1" style="color:#fff;">books & reading &rarr;</button>
+            <button onclick="openNote('cat-music')" class="category-item bg-teal-1" style="color:#fff;">music & playlists &rarr;</button>
+            <button onclick="openNote('cat-coffee')" class="category-item bg-cream-1">coffee & cafes &rarr;</button>
+            <button onclick="openNote('cat-art')" class="category-item bg-olive-1" style="color:#fff;">art & sketching &rarr;</button>
+            <button onclick="openNote('cat-travel')" class="category-item bg-grey-1" style="color:#fff;">travel & walks &rarr;</button>
+            <button onclick="openNote('cat-dreams')" class="category-item bg-pink-1" style="color:#fff;">dreams & visions &rarr;</button>
+            <button onclick="openNote('cat-nature')" class="category-item bg-green-1" style="color:#fff;">nature & plants &rarr;</button>
+            <button onclick="openNote('cat-recipes')" class="category-item bg-yellow-1">recipes & baking &rarr;</button>
+            <button onclick="openNote('cat-nostalgia')" class="category-item bg-lavender">nostalgia logs &rarr;</button>
+            <button onclick="openNote('cat-late-night')" class="category-item bg-black-1" style="color:#fff;">late night musings &rarr;</button>
+          </div>
+        </div>
+
+        <div class="sidebar-card">
+          <div class="sidebar-title">
+            <span class="letter bg-pink-1">S</span>
+            <span class="letter bg-brown-1">U</span>
+            <span class="letter bg-yellow-1">B</span>
+            <span class="letter bg-green-1">S</span>
+            <span class="letter bg-teal-1">C</span>
+            <span class="letter bg-black-1">R</span>
+            <span class="letter bg-pink-1">I</span>
+            <span class="letter bg-brown-1">B</span>
+            <span class="letter bg-yellow-1">E</span>
+          </div>
+          <p class="sidebar-text">join the tiny letter club (for more blabbings)</p>
+          <div class="subscribe-form">
+            <input type="email" placeholder="your email here...">
+            <button onclick="openNote('note-subscribed')"><i class="fa-regular fa-envelope"></i></button>
+          </div>
+        </div>
+
+      </aside>
+
+    </div>
+
+    <div class="bottom-layout">
+      <div class="bottom-banner">
+        <div class="bottom-banner-title">
+          <span class="letter bg-pink-1">L</span>
+          <span class="letter bg-yellow-1">I</span>
+          <span class="letter bg-black-1">T</span>
+          <span class="letter bg-teal-1">T</span>
+          <span class="letter bg-green-1">L</span>
+          <span class="letter bg-pink-1">E</span><br>
+          <span class="letter bg-yellow-1">T</span>
+          <span class="letter bg-pink-1">H</span>
+          <span class="letter bg-black-1">I</span>
+          <span class="letter bg-green-1">N</span>
+          <span class="letter bg-brown-1">G</span>
+          <span class="letter bg-teal-1">S</span>
+        </div>
+        <div class="handwritten" style="font-size: 1.5rem; color: #fff; text-shadow: 1px 1px 3px rgba(0,0,0,0.6); text-align: center;">
+          Same chaos<br>&darr;<br>brighter days<br>&or;
+        </div>
+      </div>
+
+      <div class="notepad-card handwritten">
+        <div class="checklist-row"><input type="checkbox" checked> better</div>
+        <div class="checklist-row"><input type="checkbox" checked> kinder</div>
+        <div class="checklist-row"><input type="checkbox" checked> happier</div>
+        <div class="checklist-row"><input type="checkbox"> still me</div>
+        <p style="margin-top: 10px; font-size: 1.1rem;">(and that's enough) ♡</p>
+      </div>
+    </div>
+
+    <footer>
+      <div class="social-icons">
+        <a href="mailto:ynotrayan@gmail.com"><i class="fa-regular fa-envelope"></i></a>
+        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#"><i class="fa-brands fa-spotify"></i></a>
+        <a href="#"><i class="fa-brands fa-pinterest"></i></a>
+      </div>
+      <div>
+        little things ✂ - a collection of notes by rayan
+      </div>
+    </footer>
+
+  </div>
+
+  <div id="note-home" class="note-modal-overlay" onclick="closeNoteOnOverlay(event, 'note-home')">
+    <div class="notebook-page handwritten">
+      <button class="close-btn" onclick="closeNote('note-home')">&times;</button>
+      <div class="note-date">Welcome Journal • Entry #00</div>
+      <h2>Home Sweet Chaos 🏡✨</h2>
+      <p>Welcome to my tiny corner of the sprawling internet web. If you've stumbled upon this little digital scrapbook, pull up a comfy chair, grab a warm mug of whatever coffee, tea, or hot cocoa you prefer, and stay a while for an extended reading session.</p>
+      <p>I built this space because my brain is perpetually cluttered with half-formed ideas, random lyric snippets, aesthetic photo inspirations, emotional journal entries, and midnight reflections that refuse to let me sleep peacefully. Instead of keeping them locked away in dusty paper notebooks scattered all over my floor, I decided to curate them here in a digital scrapbook format with expanded depth and texture.</p>
+      <p>Take your time browsing through the polaroids, clicking on category tags, reading my random midnight thoughts, and soaking in the slow, nostalgic vibes. There's no rush here, no notifications demanding your immediate attention, and absolutely no pressure. Just a quiet digital haven for people who love the little, unhurried things in life. Every single note and category entry has been intentionally lengthened so you can truly get lost in my sprawling narrative thoughts for hours on end. ♡</p>
+    </div>
+  </div>
+
+  <div id="note-posts" class="note-modal-overlay" onclick="closeNoteOnOverlay(event, 'note-posts')">
+    <div class="notebook-page handwritten">
+      <button class="close-btn" onclick="closeNote('note-posts')">&times;</button>
+      <div class="note-date">Directory & Archive • All Posts</div>
+      <h2>The Complete Post Collection 📂✍️</h2>
+      <p>Welcome to the main archives where all my thoughts, reflections, and polaroids live together in chronological harmony. Writing has always been my primary mechanism for processing the overwhelming static of everyday life, serving as an emotional anchor during turbulent storms.</p>
+      <p>Each entry represents a specific snapshot in time—a feeling I couldn't shake, a book that changed my perspective, a rainy afternoon spent listening to indie records, or an awkward social interaction I replayed in my head twelve times before finally falling asleep. When you look back through these logs, you're essentially looking at an unfiltered timeline of my personal growth, creative experimentation, and quiet realizations.</p>
+      <p>Feel free to click through individual polaroid cards from the main homepage grid or use the category buttons on the sidebar to filter entries by specific moods, academic notes, or random life updates. Every piece written here has a little piece of my heart embedded in its sentences, expanded far beyond standard snippets to give you a richer, more immersive journal experience. Thank you for reading and sharing this journey with me! 📌</p>
+    </div>
+  </div>
+
+  <div id="note-about" class="note-modal-overlay" onclick="closeNoteOnOverlay(event, 'note-about')">
+    <div class="notebook-page handwritten">
+      <button class="close-btn" onclick="closeNote('note-about')">&times;</button>
+      <div class="note-date">Personal Bio & Manifesto • Who is Rayan?</div>
+      <h2>About Me & This Little Corner 🌸☕</h2>
+      <p>Hi, I’m Rayan! ♡</p>
+
+      <p>I’m someone who is probably always thinking about something. I can be quiet at first, but once I’m comfortable, I have a lot to say. I love the little things that make life feel special—good conversations, music, laughing until my stomach hurts, and moments that turn into memories.</p>
+
+      <p>I’m still figuring myself out, and I think that’s one of the most interesting parts of growing up. I’m learning what I like, what matters to me, what I want for my future, and who I want to become.</p>
+
+      <p>This blog is a little piece of my world. It’s a place where I can share my thoughts, random ideas, experiences, and all the things that somehow end up taking over my mind. So, if you’re here, welcome to my little corner of the internet. ♡</p>
+    </div>
+  </div>
+
+  <div id="note-categories-all" class="note-modal-overlay" onclick="closeNoteOnOverlay(event, 'note-categories-all')">
+    <div class="notebook-page handwritten">
+      <button class="close-btn" onclick="closeNote('note-categories-all')">&times;</button>
+      <div class="note-date">Categories Overview • Directory</div>
+      <h2>Exploring All Categories 🏷️📚</h2>
+      <p>To make navigating my chaotic mind easier, I've sorted my thoughts and diary entries into a vast array of thematic categories. Each category holds a completely different flavor of my personality, artistic pursuits, and daily experiences:</p>
+      <ul>
+        <li><b>Life Notes:</b> General day-to-day happenings, mundane updates, weekend adventures, and lifestyle reflections.</li>
+        <li><b>Thoughts Notes:</b> Deep dives into overthinking, emotional check-ins, mental health journeys, and philosophical late-night musings.</li>
+        <li><b>School Notes:</b> Academic struggles, study aesthetic setups, library sessions, and notes from my student era.</li>
+        <li><b>Favorites Notes:</b> Curated lists of books, films, cozy café recommendations, songs, and products that bring me joy.</li>
+        <li><b>Random Blabbings:</b> Unfiltered micro-thoughts, random observations, and silly brain dumps that don't fit anywhere else.</li>
+        <li><b>Books & Reading:</b> Literary critiques, marginalia snippets, and thoughts on immersive fiction.</li>
+        <li><b>Music & Playlists:</b> Album reviews, acoustic discoveries, and the soundtrack to my life.</li>
+        <li><b>Coffee & Cafes:</b> Caffeine logs, cozy corner evaluations, and barista observations.</li>
+        <li><b>Art & Sketching:</b> Doodles, color palettes, and creative experiments in the margins.</li>
+        <li><b>Travel & Walks:</b> Explorations of neighborhood alleyways, parks, and solo adventures.</li>
+        <li><b>Dreams & Visions:</b> Weird subconscious narratives and surreal morning journals.</li>
+        <li><b>Nature & Plants:</b> Botanical observations, houseplant care, and seasonal shifts.</li>
+        <li><b>Recipes & Baking:</b> Kitchen experiments, comfort food creations, and sweet treats.</li>
+        <li><b>Nostalgia Logs:</b> Childhood memories, bittersweet flashbacks, and fading photographs.</li>
+        <li><b>Late Night Musings:</b> Unfiltered existential thoughts penned during insomniac hours.</li>
+      </ul>
+      <p>You can click on any specific category button on the sidebar or right here to instantly explore related entries. Enjoy rummaging through my sprawling digital filing cabinet! 🗂️✨</p>
+    </div>
+  </div>
+
+  <div id="note-contact" class="note-modal-overlay" onclick="closeNoteOnOverlay(event, 'note-contact')">
+    <div class="notebook-page handwritten">
+      <button class="close-btn" onclick="closeNote('note-contact')">&times;</button>
+      <div class="note-date">Get In Touch • Say Hello</div>
+      <h2>Let's Connect & Chat 💌📬</h2>
+      <p>I would genuinely love to hear from you! Whether you want to share your thoughts on one of my posts, recommend a cozy indie book, suggest a fantastic coffee shop playlist, or just send a warm virtual hug, my inbox is always wide open.</p>
+      <p>You can reach out to me directly via email at <a href="mailto:ynotrayan@gmail.com" style="color: #a26d3f; font-weight: bold; text-decoration: underline;">ynotrayan@gmail.com</a> or connect with me across my social media profiles linked at the bottom of the page (Instagram, Spotify, Pinterest).</p>
+      <p>Please note that because I spend a lot of time offline reading books or daydreaming, my reply might take a little while, but I promise every message is read with a big smile. Don't be a stranger—let's be internet pen pals! ♡</p>
+    </div>
+  </div>
+
+  <div id="note-search" class="note-modal-overlay" onclick="closeNoteOnOverlay(event, 'note-search')">
+    <div class="notebook-page handwritten">
+      <button class="close-btn" onclick="closeNote('note-search')">&times;</button>
+      <div class="note-date">Interactive Finder • Search Archives</div>
+      <h2>Search the Journal 🔍📖</h2>
+      <p>Looking for a specific memory, keyword, topic, or feeling within my archives? Type your search query below to instantly filter through all available notes and scrapbook entries:</p>
+      
+      <input type="text" id="searchInput" class="search-box-input" placeholder="Type keyword (e.g. coffee, overthinking, anxiety)..." onkeyup="filterSearchNotes()">
+
+      <div id="searchResults">
+        <div class="search-result-card" onclick="openNote('note-1')">
+          <div class="note-inner-date">July 20, 2025 • Life & Thoughts</div>
+          <b>In My Overthinking Era</b> — A deep dive into anxiety, intrusive thoughts, and learning self-compassion.
+        </div>
+        <div class="search-result-card" onclick="openNote('note-2')">
+          <div class="note-inner-date">July 15, 2025 • Favorites</div>
+          <b>Little Things That Make Me Happy</b> — Appreciating ordinary joys like warm coffee, stationery, and quiet mornings.
+        </div>
+        <div class="search-result-card" onclick="openNote('note-3')">
+          <div class="note-inner-date">July 10, 2025 • Life</div>
+          <b>A Lazy Kind of Day</b> — Embracing slow productivity, resting guilt-free, and enjoying lazy afternoons.
+        </div>
+        <div class="search-result-card" onclick="openNote('cat-thoughts')">
+          <div class="note-inner-date">August Collection • Thoughts & Reflections</div>
+          <b>Thoughts & Reflections Category Note</b> — Exploring deeper emotional landscapes and mindset shifts.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="note-subscribed" class="note-modal-overlay" onclick="closeNoteOnOverlay(event, 'note-subscribed')">
+    <div class="notebook-page handwritten" style="text-align: center; padding-top: 60px;">
+      <button class="close-btn" onclick="closeNote('note-subscribed')">&times;</button>
+      <div style="font-size: 3.5rem; margin-bottom: 15px;">🎉</div>
+      <h2>You're in the Club! ♡</h2>
+      <p>Thank you so much for joining the <b>Tiny Letter Club</b>! Your email has been successfully registered to our cozy mailing list.</p>
+      <p>Whenever a new long note, scrapbook blabbing, or journal entry is published, a warm, hand-crafted letter will be sent straight to your inbox without any spam.</p>
+      <p>Make sure to check your email to confirm your subscription! Welcome to our little circle of dreamers and overthinkers. 💌✨</p>
+    </div>
+  </div>
+
+  <div id="note-1" class="note-modal-overlay" onclick="closeNoteOnOverlay(event, 'note-1')">
+    <div class="notebook-page handwritten">
+      <button class="close-btn" onclick="closeNote('note-1')">&times;</button>
+      <div class="note-date">July 20, 2025 • Entry #42</div>
+      <h2>In My Overthinking Era 💭</h2>
+      <div class="note-card-inner">
+        <div class="note-inner-date">Journal Excerpt</div>
+        "Why do our brains insist on replaying every awkward sentence we uttered in 2021 at 3:00 AM?"
+      </div>
+      <p>Lately, I feel like I've officially entered my overthinking era. It's not a badge of honor; honestly, it's exhausting. You know those days when every minor interaction feels like a puzzle you failed to solve? Someone leaves a text message unpunctuated with an emoji, or a friend takes an hour longer to reply, and suddenly your brain constructs an entire theatrical production about how everyone secretly finds you annoying.</p>
+      <p>I spent the entire morning pacing around my room, untangling knots of anxiety that weren't even rooted in actual reality. It's wild how creative our minds become when weaponized against our own peace of mind.</p>
+      <p>But around noon, I stopped. I made a fresh cup of chamomile tea, sat by the window, and forced myself to write down every irrational fear on a crumpled scrap of paper. Seeing them written out in messy ink made them look small and ridiculous. I'm learning—very slowly, with plenty of stumbles along the way—to be kinder to myself. Healing isn't linear, and neither is quietude. If you're also overthinking today, take a deep breath. We'll be okay. ♡</p>
+    </div>
+  </div>
+
+  <div id="note-2" class="note-modal-overlay" onclick="closeNoteOnOverlay(event, 'note-2')">
+    <div class="notebook-page handwritten">
+      <button class="close-btn" onclick="closeNote('note-2')">&times;</button>
+      <div class="note-date">July 15, 2025 • Entry #39</div>
+      <h2>Little Things That Make Me Happy ☕✨</h2>
+      <div class="note-card-inner">
+        <div class="note-inner-date">Gratitude List</div>
+        "Happiness isn't a grand destination; it's a collection of tiny, quiet moments that catch you by surprise."
+      </div>
+      <p>People always talk about life-changing milestones—graduation, dream jobs, traveling across continents—and while those are incredible, I've realized that my soul is sustained by the microscopic joys of everyday existence.</p>
+      <p>Here is a short, unedited list of things that made my heart feel full this week:</p>
+      <ul>
+        <li>The exact moment hot water hits loose tea leaves and swirls into a rich golden amber.</li>
+        <li>Finding a crisp, clean five-dollar bill tucked inside the pocket of an old winter coat.</li>
+        <li>The satisfying sound of a heavy paperback book cracking open for the very first time.</li>
+        <li>My cat purring so loudly against my ribs that it feels like a tiny feathered engine.</li>
+        <li>The smell of old paper and freshly sharpened pencils in independent stationery shops.</li>
+      </ul>
+      <p>None of these things will make headlines in the morning news, and none of them cost a fortune, but they keep the heavy days bearable. Notice your tiny joys today! 🌿</p>
+    </div>
+  </div>
+
+  <div id="note-3" class="note-modal-overlay" onclick="closeNoteOnOverlay(event, 'note-3')">
+    <div class="notebook-page handwritten">
+      <button class="close-btn" onclick="closeNote('note-3')">&times;</button>
+      <div class="note-date">July 10, 2025 • Entry #35</div>
+      <h2>A Lazy Kind of Day 🌧️💤</h2>
+      <div class="note-card-inner">
+        <div class="note-inner-date">Permission to Rest</div>
+        "Resting is not a reward you have to earn through exhaustion; it is a basic human necessity."
+      </div>
+      <p>Today was designated as a certified lazy day. No alarms set, no ambitious to-do lists, no emails answered, and zero guilt.</p>
+      <p>Outside, a gentle summer drizzle tapped against the windowpanes like a polite reminder that nature itself slows down when it needs to breathe. I spent eight uninterrupted hours wrapped in a fleece blanket, alternating between reading psychological thrillers, listening to lofi instrumental vinyl records, and staring lazily at the ceiling patterns.</p>
+      <p>We live in a culture that glorifies constant hustle, making us feel guilty whenever we aren't producing, optimizing, or achieving something tangible. But there is fierce, quiet rebellion in simply existing without an agenda. If your body is asking you to pause today, please listen to it. The world will keep spinning just fine without your hurried participation for a few hours. 🛌☕</p>
+    </div>
+  </div>
+
+  <div id="cat-life" class="note-modal-overlay" onclick="closeNoteOnOverlay(event, 'cat-life')">
+    <div class="notebook-page handwritten">
+      <button class="close-btn" onclick="closeNote('cat-life')">&times;</button>
+      <div class="note-date">August 2025 Collection • Life Notes</div>
+      <h2>Category: Life Notes & Everyday Ramblings 🌱</h2>
+      <div class="note-card-inner">
+        <div class="note-inner-date">August 18, 2025</div>
+        "Navigating groceries, unexpected rainstorms, and the beauty of mundane routines."
+      </div>
+      <p>Life has been moving at a strange, undulating pace lately—somewhere between rushing through busy city streets and pausing to watch stray cats nap on sun-warmed concrete steps. This category is dedicated to the raw, unpolished fabric of my day-to-day existence.</p>
+      <p>Over the past few weeks, I've been trying to master the art of romanticizing household chores. Doing laundry doesn't have to feel like a tedious punishment if you put on an upbeat jazz record, light a vanilla candle, and fold your clothes into neat, color-coordinated stacks while the afternoon light streams through the curtains. It's all about reframing perspective.</p>
+      <p>I also took an impromptu solo trip to a local botanical garden last weekend. Walking through the humid greenhouse filled with giant ferns and exotic orchids made me realize how small we are in the grand tapestry of nature—and how comforting that realization truly is. Our personal worries dissolve when surrounded by ancient green life that has been growing silently for decades. Here's to embracing more ordinary, beautiful days ahead! 🌿✨</p>
+    </div>
+  </div>
+
+  <div id="cat-thoughts" class="note-modal-overlay" onclick="closeNoteOnOverlay(event, 'cat-thoughts')">
+    <div class="notebook-page handwritten">
+      <button class="close-btn" onclick="closeNote('cat-thoughts')">&times;</button>
+      <div class="note-date">August 2025 Collection • Thoughts Notes</div>
+      <h2>Category: Thoughts & Reflections 💭🧠</h2>
+      <div class="note-card-inner">
+        <div class="note-inner-date">August 21, 2025</div>
+        "On solitude, emotional resilience, and untangling midnight anxieties."
+      </div>
+      <p>Thoughts are funny things; they arrive uninvited like stray cats wandering through an open garden gate. Sometimes they curl up peacefully in your lap, and other times they claw at your furniture and knock over your favorite mugs.</p>
+      <p>Lately, I've been wrestling heavily with the concept of solitude versus loneliness. Society often programs us to believe that spending Friday nights alone in your room equates to social failure. But I'm discovering that solitude is actually a sacred sanctuary. It's the only space where you can truly hear your own authentic voice without the echoing opinions, expectations, and judgments of the outside world interfering.</p>
+      <p>When we sit with our thoughts instead of numbing them with endless social media scrolling or frantic busyness, we unlock profound self-awareness. It's uncomfortable at first—like looking into a dusty mirror you haven't cleaned in months. But once the dust clears, you start accepting your flaws, forgiving your past mistakes, and understanding that you are a complete, worthy person just as you are. Keep questioning, keep reflecting, and never fear your own inner mind. 🌌✨</p>
+    </div>
+  </div>
+
+  <div id="cat-school" class="note-modal-overlay" onclick="closeNoteOnOverlay(event, 'cat-school')">
+    <div class="notebook-page handwritten">
+      <button class="close-btn" onclick="closeNote('cat-school')">&times;</button>
+      <div class="note-date">August 2025 Collection • School Notes</div>
+      <h2>Category: School Notes & Academic Chaos 📚✏️</h2>
+      <div class="note-card-inner">
+        <div class="note-inner-date">August 14, 2025</div>
+        "Highlighter smudges, library card catalogs, and surviving academic burnout."
+      </div>
+      <p>Ah, student life—a perpetual cycle of highlighters, multi-colored sticky notes, steep caffeine dependencies, and existential dread before major exams. Even when formal schooling changes shape, the student mindset never truly leaves you; we are all lifelong learners trying to make sense of complex textbooks.</p>
+      <p>I spent yesterday hooped up in the corner of our campus library until closing time, surrounded by towering stacks of literature textbooks, research papers, and half-empty coffee cups. There is a very specific, nostalgic ambiance to libraries late at night: the hum of fluorescent lights, the quiet rustle of turning pages, and the shared camaraderie of fellow students suffering through deadlines together.</p>
+      <p>If you're currently drowning in coursework, exams, or heavy research projects, remember that your worth is never defined by a letter grade on a transcript. Take regular screen breaks, drink plenty of water, and remember that intelligence is multifaceted. You are doing much better than you give yourself credit for! 🎒🎓</p>
+    </div>
+  </div>
+
+  <div id="cat-favorites" class="note-modal-overlay" onclick="closeNoteOnOverlay(event, 'cat-favorites')">
+    <div class="notebook-page handwritten">
+      <button class="close-btn" onclick="closeNote('cat-favorites')">&times;</button>
+      <div class="note-date">August 2025 Collection • Favorites Notes</div>
+      <h2>Category: Favorites & Obsessions ⭐💖</h2>
+      <div class="note-card-inner">
+        <div class="note-inner-date">August 12, 2025</div>
+        "A curated masterlist of cozy books, indie soundtracks, and aesthetic treasures."
+      </div>
+      <p>Welcome to my curated cabinet of curiosities and absolute favorite things! Whenever people ask me for recommendations—whether for books, films, music albums, or comfort items—I light up instantly because sharing things you love is one of life's greatest joys.</p>
+      <p>My current cultural obsessions include Haruki Murakami novels that blur the lines between reality and dreamscapes, rainy-day indie folk playlists featuring soft acoustic guitars and humming vocals, and refillable fountain pens that glide effortlessly across cream-colored grid paper. There's also a special place in my heart for vintage thrift store cardigans that smell faintly of old cedarwood.</p>
+      <p>Surrounding yourself with things that genuinely spark comfort and inspiration transforms a harsh world into a welcoming home. I hope some of these favorites bring a little extra warmth and color into your own daily routine as well! 🎶📚✨</p>
+    </div>
+  </div>
+
+  <div id="cat-random" class="note-modal-overlay" onclick="closeNoteOnOverlay(event, 'cat-random')">
+    <div class="notebook-page handwritten">
+      <button class="close-btn" onclick="closeNote('cat-random')">&times;</button>
+      <div class="note-date">August 2025 Collection • Random Blabbings</div>
+      <h2>Category: Random Blabbings & Midnight Brain Dumps ✂️🤪</h2>
+      <div class="note-card-inner">
+        <div class="note-inner-date">June 18, 2025</div>
+        "Late night organizing sessions, washi tape collections, and unhinged micro-thoughts."
+      </div>
+      <p>It's 2:15 AM and instead of sleeping like a sensible human being, I just spent twenty uninterrupted minutes sorting my massive collection of floral washi tapes into precise color palettes and gradient shades.</p>
+      <p>Do I rationally need thirty distinct rolls of aesthetic adhesive tape? Absolutely not. Does looking at them arranged meticulously in a wooden box on my desk bring me an unreasonable, childlike amount of quiet satisfaction? Without a shadow of a doubt, yes. Sometimes the tiny hobbies that make zero logical sense to outsiders are precisely the anchors that keep our souls grounded in a chaotic world.</p>
+      <p>This category is my designated dumping ground for all thoughts that defy categorization—half-baked recipe ideas, observations about cloud shapes, weird dreams I had about flying squirrels, and random bursts of midnight inspiration. Never change your weird little joys; they make life wonderfully vibrant! ✂️🎨</p>
+    </div>
+  </div>
+
+  <div id="cat-books" class="note-modal-overlay" onclick="closeNoteOnOverlay(event, 'cat-books')">
+    <div class="notebook-page handwritten">
+      <button class="close-btn" onclick="closeNote('cat-books')">&times;</button>
+      <div class="note-date">August 2025 Collection • Books & Reading</div>
+      <h2>Category: Books & Marginalia Snippets 📖✍️</h2>
+      <div class="note-card-inner">
+        <div class="note-inner-date">August 10, 2025</div>
+        "Dog-eared pages, midnight chapter endings, and the smell of old paperbacks."
+      </div>
+      <p>There is an indescribable magic in opening a physical book that has travelled through time, bearing the faint pencil underlines, coffee ring stains, and marginal notes of previous unknown readers. Books are not merely stories printed on dead trees; they are portable portals to entirely different dimensions of human consciousness.</p>
+      <p>Lately, I've been devouring translated Japanese literature and whimsical magical realism that bends time and space. I love sitting in oversized armchairs with a stack of sticky tabs nearby, marking sentences that punch me right in the chest. A good book should leave you feeling slightly wrecked yet profoundly understood by the time you close the back cover.</p>
+      <p>Reading also acts as my primary shield against digital burnout. In an era where attention spans are fractured into bite-sized video clips, settling down with a 500-page epic novel is a radical act of slow rebellion. Never let anyone rush your reading pace; savor every single paragraph like a fine wine. 📚🍂</p>
+    </div>
+  </div>
+
+  <div id="cat-music" class="note-modal-overlay" onclick="closeNoteOnOverlay(event, 'cat-music')">
+    <div class="notebook-page handwritten">
+      <button class="close-btn" onclick="closeNote('cat-music')">&times;</button>
+      <div class="note-date">August 2025 Collection • Music & Playlists</div>
+      <h2>Category: Music & Sonic Landscapes 🎶🎧</h2>
+      <div class="note-card-inner">
+        <div class="note-inner-date">August 09, 2025</div>
+        "Vinyl crackles, rainy window bus rides, and indie folk harmonies."
+      </div>
+      <p>Music is the invisible architecture of our emotions. Every major memory in my life has a corresponding soundtrack—a specific song that immediately transports me back to a particular autumn evening, a road trip with windows rolled down, or a quiet bedroom crying session.</p>
+      <p>My current sonic rotation consists heavily of melancholy indie folk, warm acoustic fingerpicking, and lofi instrumental beats that mimic the patter of rainfall on tin roofs. There is something deeply cathartic about putting on headphones, pressing play on a carefully curated playlist, and watching the blurry city lights pass by through a bus window.</p>
+      <p>I spend hours organizing digital and physical playlists by precise emotional weather—categorizing tracks by whether they feel like 'driving through fog at dusk' or 'baking cookies in a sunlit kitchen at noon'. Soundtracks validate feelings we lack the vocabulary to express. Turn up your favorite record today and let the melodies wash away your static! 🎵✨</p>
+    </div>
+  </div>
+
+  <div id="cat-coffee" class="note-modal-overlay" onclick="closeNoteOnOverlay(event, 'cat-coffee')">
+    <div class="notebook-page handwritten">
+      <button class="close-btn" onclick="closeNote('cat-coffee')">&times;</button>
+      <div class="note-date">August 2025 Collection • Coffee & Cafes</div>
+      <h2>Category: Coffee Cups & Cozy Corners ☕🌿</h2>
+      <div class="note-card-inner">
+        <div class="note-inner-date">August 07, 2025</div>
+        "Espresso shots, warm ceramic mugs, and corner table people-watching."
+      </div>
+      <p>There is a sacred ritual to finding the ultimate neighborhood cafe. For me, it's not about fancy luxury branding or corporate espresso chains; it's entirely about atmosphere—wobbly wooden tables, the gentle hum of grinders, the smell of freshly roasted beans, and an abundance of green pothos trailing from ceiling shelves.</p>
+      <p>I frequently find myself staking out a corner booth with a sketchbook and a hot oat milk latte, spending hours watching strangers read, type frantically on laptops, or share quiet whispered conversations. Cafes are miniature societies operating in peaceful sync.</p>
+      <p>Making coffee at home has also become an artistic meditation. Measuring out the coffee beans, hearing the manual hand-grinder crunch through the roast, and pouring hot water in slow concentric circles over a pour-over cone transforms a simple morning beverage into an intentional ceremony of presence. Here's to warm cups and slow afternoons! ☕✨</p>
+    </div>
+  </div>
+
+  <div id="cat-art" class="note-modal-overlay" onclick="closeNoteOnOverlay(event, 'cat-art')">
+    <div class="notebook-page handwritten">
+      <button class="close-btn" onclick="closeNote('cat-art')">&times;</button>
+      <div class="note-date">August 2025 Collection • Art & Sketching</div>
+      <h2>Category: Art & Imperfect Doodles 🎨✏️</h2>
+      <div class="note-card-inner">
+        <div class="note-inner-date">August 05, 2025</div>
+        "Smudged graphite, watercolor washes, and letting go of perfectionism."
+      </div>
+      <p>I am certainly no professional fine artist, but picking up a pencil or a watercolor pan and letting colors bleed across textured paper is one of my favorite ways to quiet an overactive nervous system. Art doesn't need to hang in a grand museum gallery to hold deep personal value.</p>
+      <p>My sketchbooks are absolute disasters—filled with lopsided teacups, anatomical sketches of houseplant leaves gone wrong, abstract watercolor splashes, and random handwritten poetry scrawled diagonally across the page. That's the beauty of private sketchbooks; they harbor zero expectations.</p>
+      <p>Perfectionism is the absolute enemy of creative expression. When we give ourselves permission to create ugly, messy, unpolished art without fear of judgment, true freedom unlocks. Grab a stray pen right now and draw something silly in the margins of your mind! 🖌️✨</p>
+    </div>
+  </div>
+
+  <div id="cat-travel" class="note-modal-overlay" onclick="closeNoteOnOverlay(event, 'cat-travel')">
+    <div class="notebook-page handwritten">
+      <button class="close-btn" onclick="closeNote('cat-travel')">&times;</button>
+      <div class="note-date">August 2025 Collection • Travel & Walks</div>
+      <h2>Category: Wandering Walks & Lost Paths 🥾🗺️</h2>
+      <div class="note-card-inner">
+        <div class="note-inner-date">August 03, 2025</div>
+        "Cobblestone streets, accidental detours, and discovering hidden city corners."
+      </div>
+      <p>You don't need to board an expensive international flight across oceans to experience the thrill of exploration. Some of my most profound travel epiphanies have occurred right in my own city by simply turning down an unfamiliar alleyway or exploring a forgotten neighborhood park without a map.</p>
+      <p>I love urban wandering—stepping out with comfortable walking shoes, a pocket notebook, and an open curiosity about where random side streets might lead. You notice the most incredible details when you walk slowly: intricate wrought-iron balconies, blooming jasmine vines climbing brick walls, stray cats napping on vintage automobiles, and quirky hand-painted bookstore signs.</p>
+      <p>Traveling is ultimately a state of mind. It's about maintaining childlike wonder in the face of the everyday environment. Put your phone away on your next afternoon stroll, look up at the architecture, and let yourself get delightfully lost for an hour. 🌍🚶‍♀️</p>
+    </div>
+  </div>
+
+  <div id="cat-dreams" class="note-modal-overlay" onclick="closeNoteOnOverlay(event, 'cat-dreams')">
+    <div class="notebook-page handwritten">
+      <button class="close-btn" onclick="closeNote('cat-dreams')">&times;</button>
+      <div class="note-date">August 2025 Collection • Dreams & Visions</div>
+      <h2>Category: Subconscious Dreams & Surreal Visions 🌙👁️</h2>
+      <div class="note-card-inner">
+        <div class="note-inner-date">August 01, 2025</div>
+        "Lucid landscapes, floating libraries, and morning dream journal logs."
+      </div>
+      <p>The human subconscious is a wonderfully bizarre, surreal theatre that operates every single night while our conscious bodies rest. I keep a dedicated dream journal on my bedside table, scribbling down fragmented memories the exact second I wake up before morning sunlight burns them away.</p>
+      <p>My dreams are cinematic masterpieces of nonsense—last week I dreamt I was running a bookstore inside a giant hollowed-out tree where the books whispered secrets when opened, and yesterday I visited a city where the sky was bright lavender and gravity felt optional.</p>
+      <p>Exploring our dream landscapes offers fascinating insights into our hidden anxieties, unfulfilled desires, and creative subconscious processing. Even when they make zero logical sense upon waking, dream fragments are wonderful sparks for creative writing and artistic inspiration. Sweet dreams to your inner mind! 🌌✨</p>
+    </div>
+  </div>
+
+  <div id="cat-nature" class="note-modal-overlay" onclick="closeNoteOnOverlay(event, 'cat-nature')">
+    <div class="notebook-page handwritten">
+      <button class="close-btn" onclick="closeNote('cat-nature')">&times;</button>
+      <div class="note-date">August 2025 Collection • Nature & Plants</div>
+      <h2>Category: Botanical Sanctuaries & Green Leaves 🌱🌿</h2>
+      <div class="note-card-inner">
+        <div class="note-inner-date">July 28, 2025</div>
+        "Indoor jungles, soil beneath fingernails, and silent green growth."
+      </div>
+      <p>My apartment slowly morphed into an indoor botanical greenhouse over the past two years, and I have zero regrets. There is an incredible, grounding therapy in tending to living plants—wiping dust from monstera leaves, checking soil moisture levels with your index finger, and watching a brand new unfurling green shoot emerge overnight.</p>
+      <p>Plants don't demand conversation or fast productivity; they simply exist, absorbing sunlight and carbon dioxide, growing at their own quiet, steady pace regardless of human chaos.</p>
+      <p>Connecting with nature—whether through tending indoor pothos vines, pressing wildflowers into heavy encyclopedia pages, or sitting beneath a massive oak tree in the local park—reminds us that we are organic beings tethered to seasonal cycles of rest, bloom, and renewal. Cultivate your green spaces! 🪴🍃</p>
+    </div>
+  </div>
+
+  <div id="cat-recipes" class="note-modal-overlay" onclick="closeNoteOnOverlay(event, 'cat-recipes')">
+    <div class="notebook-page handwritten">
+      <button class="close-btn" onclick="closeNote('cat-recipes')">&times;</button>
+      <div class="note-date">August 2025 Collection • Recipes & Baking</div>
+      <h2>Category: Kitchen Experiments & Comfort Baking 🥧🍯</h2>
+      <div class="note-card-inner">
+        <div class="note-inner-date">July 25, 2025</div>
+        "Cinnamon sugar scents, flour-dusted countertops, and rainy day baking."
+      </div>
+      <p>Kitchens are alchemical laboratories of comfort. There is something deeply restorative about baking a batch of warm cinnamon rolls or rustic berry galettes on a lazy Sunday afternoon while jazz music fills the apartment and flour dusts the countertops.</p>
+      <p>My recipe collection consists mostly of tattered index cards handed down from family members, stained with butter and vanilla extract, alongside experimental concoctions scribbled in the margins of my notebooks.</p>
+      <p>Baking is an act of love made tangible—sharing a warm pastry with a friend, leaving a plate of cookies for a neighbor, or treating yourself to a sweet reward after a grueling week. Food carries memory, culture, and comfort all wrapped into one delicious bite. Bon appétit! 🧁✨</p>
+    </div>
+  </div>
+
+  <div id="cat-nostalgia" class="note-modal-overlay" onclick="closeNoteOnOverlay(event, 'cat-nostalgia')">
+    <div class="notebook-page handwritten">
+      <button class="close-btn" onclick="closeNote('cat-nostalgia')">&times;</button>
+      <div class="note-date">August 2025 Collection • Nostalgia Logs</div>
+      <h2>Category: Bittersweet Nostalgia & Old Polaroids 📸🕰️</h2>
+      <div class="note-card-inner">
+        <div class="note-inner-date">July 22, 2025</div>
+        "Faded photographs, childhood memories, and the sweet ache of the past."
+      </div>
+      <p>Nostalgia is a complex, double-edged emotion—it wraps you in a warm, amber-tinted blanket of fond remembrance while simultaneously aching for moments and people that can never be physically revisited.</p>
+      <p>I frequently find myself opening old shoeboxes filled with faded polaroid pictures, ticket stubs from concerts years ago, pressed autumn leaves, and handwritten letters from friends across different seasons of life.</p>
+      <p>Rather than letting nostalgia fill me with sadness about passing time, I try to view it as proof that those beautiful moments actually happened. We lived them, we felt them, and they are permanently woven into the fabric of who we are today. Cherish your memories! 🎞️💛</p>
+    </div>
+  </div>
+
+  <div id="cat-late-night" class="note-modal-overlay" onclick="closeNoteOnOverlay(event, 'cat-late-night')">
+    <div class="notebook-page handwritten">
+      <button class="close-btn" onclick="closeNote('cat-late-night')">&times;</button>
+      <div class="note-date">August 2025 Collection • Late Night Musings</div>
+      <h2>Category: Insomniac Thoughts & 3 AM Epiphanies 🌌🖤</h2>
+      <div class="note-card-inner">
+        <div class="note-inner-date">July 19, 2025</div>
+        "Glow of desk lamps, quiet house silence, and unhinged philosophical wanderings."
+      </div>
+      <p>There is a distinct, otherworldly frequency to the universe between 2:00 AM and 4:00 AM. The rest of the world is fast asleep, wrapped in quiet dreams, while insomniacs and night owls wander the corridors of their own minds.</p>
+      <p>This category holds my most unhinged, unfiltered, deeply philosophical midnight brain dumps—thoughts about the vastness of the cosmos, the strange construct of linear time, the poetry of streetlights flickering through window blinds, and existential questions with no clean answers.</p>
+      <p>While daylight brings pragmatic clarity, nighttime allows our raw, poetic imagination to roam completely unchained. If you're reading this in the dead of night alongside me, know you aren't alone in the dark. Sweet insomniac dreams! 🌙✨</p>
+    </div>
+  </div>
+
+  <script>
+    // Open Modal Note
+    function openNote(noteId) {
+      document.getElementById(noteId).classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Close Modal Note
+    function closeNote(noteId) {
+      document.getElementById(noteId).classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    // Close Modal when clicking dark backdrop
+    function closeNoteOnOverlay(event, noteId) {
+      if (event.target.id === noteId) {
+        closeNote(noteId);
+      }
+    }
+
+    // Dark Mode Toggle
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+    }
+
+    // Interactive Live Search Filter
+    function filterSearchNotes() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.querySelectorAll('#searchResults .search-result-card');
+
+      cards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        if (text.includes(query)) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // Check URL parameters on load for category filtering (e.g., notes.html?cat=thoughts)
+    window.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const categoryParam = urlParams.get('cat');
+      if (categoryParam) {
+        // Find matching modal if needed
+      }
+    });
+  </script>
+
+</body>
+</html>
